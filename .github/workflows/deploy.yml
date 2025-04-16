@@ -1,0 +1,35 @@
+name: CI/CD Pipeline for HTML Project
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Validate HTML
+        run: |
+          echo "Validating HTML..."
+          # Example validation command:
+          # Add your tool or linter command here, such as tidy or htmlhint.
+          echo "HTML validation completed successfully!"
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./ # Update to point to your folder with the HTML files
